@@ -1,0 +1,13 @@
+{
+  "id": "hello",
+  "version": "1.0.0",
+  "name": "Hello",
+  "description": "A minimal devcontainer feature that prints a configurable greeting during installation. Used to validate the feature-mirror pipeline end to end.",
+  "options": {
+    "greeting": {
+      "type": "string",
+      "default": "Hello, world!",
+      "description": "The greeting printed while the feature installs."
+    }
+  }
+}
