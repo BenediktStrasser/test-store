@@ -1,0 +1,26 @@
+name: Release features
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions: {}
+concurrency:
+  group: release-${{ github.ref_name }}
+  cancel-in-progress: false
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # devcontainers/action pushes a per-feature git tag (disable-repo-tagging defaults false)
+      packages: write   # push OCI feature artifacts to ghcr.io
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+      - name: Publish features to GHCR
+        uses: devcontainers/action@1082abd5d2bf3a11abccba70eef98df068277772  # v1.4.3
+        with:
+          publish-features: "true"
+          base-path-to-features: "./src"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
